@@ -1,0 +1,8 @@
+https://learn.microsoft.com/en-us/azure/aks/use-labels
+-------------------------------------------------------
+
+
+az aks nodepool add --resource-group aks-dev-ne --cluster-name aksdevne --name aksdvnesql --node-count 1 --vnet-subnet-id "/subscriptions/4656d49f-080a-4cb6-86aa-d38259fb4ded/resourceGroups/rm-results-europe-vnet/providers/Microsoft.Network/virtualNetworks/grp-rm-results-northeurope/subnets/net-asr-aks2" --labels nodelabel=sqljob --node-vm-size Standard_DS2_v2 --node-taints dedicated=sql:NoExecute --os-sku Ubuntu
+
+
+az aks nodepool update --resource-group aks-dev-ne --cluster-name aksdevne --name aksdvnesql  --node-taints dedicated=sqljob:NoExecute --no-wait
