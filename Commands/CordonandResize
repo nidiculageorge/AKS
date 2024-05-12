@@ -1,0 +1,16 @@
+Retrieve Subnet ID 
+
+az network vnet subnet show --resource-group seab-qa2-vnet --vnet-name vnet-seab-qa2 --name aks --query id -o tsv
+
+To Cordon a Node
+
+kubectl cordon aks-vmseabqaln2-31404803-vmss000000
+
+Drain a node
+
+kubectl drain aks-nodepool1-31721111-vmss000000  --ignore-daemonsets --delete-emptydir-data
+
+
+Resize node pools in Azure Kubernetes Service (AKS) - Azure Kubernetes Service | Microsoft Learn
+
+az aks nodepool add --resource-group aks-dev-ne --cluster-name aksdevne --name aksdvnesql --node-count 1 --vnet-subnet-id "/subscriptions/4656d49f-080a-4cb6-86aa-d38259fb4ded/resourceGroups/rm-results-europe-vnet/providers/Microsoft.Network/virtualNetworks/grp-rm-results-northeurope/subnets/net-asr-aks2" --labels nodelabel:sqljob --node-vm-size Standard_DS2_v2 --node-taints 
