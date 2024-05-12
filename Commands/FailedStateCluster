@@ -1,0 +1,5 @@
+Reconciling the cluster
+
+az resource update --name  aks-poc --namespace Microsoft.ContainerService --resource-group rg-poc-aks --resource-type ManagedClusters --subscription RM_Results_PoC
+
+az aks nodepool update -g aks-dev-ne -n lnwks --cluster-name aksdevne  --debug
