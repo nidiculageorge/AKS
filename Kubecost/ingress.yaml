@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "net-asr-aks2"
+  name: kubecost-ingresscontroller
+  namespace: kubecost-ns
+spec:
+  tls:
+    - hosts:
+      - kubecost.assessor.rm.com
+  ingressClassName: nginx
+  rules:
+    - host: kubecost.assessor.rm.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kubecost-cost-analyzer
+                port:
+                  number: 9090
