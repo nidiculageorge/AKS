@@ -1,1 +1,173 @@
+Checking Performance of nodes
+
+kubectl top nodes
+
+Check which pods are running in which Node
+
+kubectl get pods -o wide --field-selector spec.nodeName=aks-vmseabqaln1-31404803-vmss000008 -n automarking-dev
+
+kubectl get pods --output=wide -n automarking-uat
+
+Node pool Update
+
+az aks nodepool update --cluster-name aks-seabqa1 --name vmseabqaln3 --resource-group rg-seab-qa-aks --enable-cluster-autoscaler --min-count 3 --max-count 10
+
+Secret Create
+
+kubectl create secret docker-registry testkey --namespace test --docker-server=asrregistrypoc.azurecr.io --docker-username=asrregistrypoc --docker-password=PRYTX1=3Sbg1BbHpIIG3UNmO43YShDyj
+
+install kubectl and helm
+---------------------------------------
+Step 1: Create a folder with name kubctl inside C:/RM/
+Step 2: Extract the attached kubctl.zip fikubctlle , copy files kubctl.exe and helm.exe to the folder C:/RM/kubctl
+Step 3: Locate ThisPC ->properties -> Advanced Settings -> Click Advanced tab -> Environment Variables
+Step 4: Edit the system variables path
+Step 5: Add the new path C:/RM/kubctl/
+Step 6: open cmd commend prompt window
+Step 7: input set PATH=C -> this will refresh the environment variables
+Step 8: close and restart cmd window
+
+Check the running Pods
+
+kubectl get pods --all-namespaces -o wide
+
+To Drain a Node
+
+kubectl cordon aks-vmseabqaln2-31404803-vmss000000
+
+Resize node pools in Azure Kubernetes Service (AKS) - Azure Kubernetes Service | Microsoft Learn
+
+To Get Service and IP
+
+kubectl get svc -a
+
+Helm Push
+ 
+az acr helm push -n seabnonliveContainerRegistry C:\Users\admin\Downloads\automarking-6.1.27.tgz
+ 
+az acr helm push -n seabnonliveContainerRegistry D:\Newfolder\automarking-6.1.42.tgz
+ 
+az acr helm push -n seabnonliveContainerRegistry D:\HelmPackage
+
+
+Run a sample container
+
+kubectl run --rm -it --image=alpine test --namespace nonlivetinyproxy
+
+kubectl exec -it digitalintegrationmoduleweb-1-0-42-6877959dbb-7nqpk /bin/bash -n dim-dev-r51seab
+
+kubectl exec -it hello-kubernetes-6486c8fcf8-fdwxf ash -n test
+
+Windows Node
+
+kubectl exec podname -n namespace -i -t -- cmd
+
+
+apk --no-cache add curl
+
+curl -x http://172.24.129.100:8080 https://www.google.com/
+
+curl https://www.google.com --proxy tinyproxy.nonlivetinyproxy.svc.cluster.local:8080
+
+curl https://www.twilio.com --proxy tinyproxy.nonlivetinyproxy.svc.cluster.local:8080
+
+curl https://portal.azure.com --proxy tinyproxy.nonlivetinyproxy.svc.cluster.local:8080
+
+curl https://portal.azure.com --proxy tinyproxy2.nonliveproxytest.svc.cluster.local:8080
+
+Kubernetes Pod Memory Usage
+
+kubectl top pod -n myn
+
+Running A Temporary Pod
+
+kubectl run --rm -it frontend --image=mcr.microsoft.com/aks/fundamental/base-ubuntu:v0.0.11 --labels app=webapp,role=frontend --namespace test
+
+
+
+kubectl run -it --rm aks-ssh --namespace test --image=debian:stable
+
+			apt-get update -y
+			apt-get install dnsutils -y
+
+
+export http_proxy=http://172.28.74.132:8080
+export https_proxy=$http_proxy
+
+
+
+Pending Pods Command
+
+kubectl get pods --field-selector=status.phase=Pending --all-namespaces
+
+kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.spec.containers[*].image}{"\n"}{end}'
+
+Display the pods with resource
+
+kubectl describe nodes > C:\StubWS\pballnodes.txt
+
+Pull the list of running Pods and Corresponding Images
+
+kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.spec.containers[*].image}{"\n"}{end}' | sort | uniq
+
+	PowerShell
+	
+	kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.spec.containers[*].image}{"\n"}{end}' | Sort-Object | Get-Unique
+
+
+Pull all the deployed Image Details
+
+kubectl get deployments -o jsonpath="{range .items[*]}{'\n'}{range .spec.template.spec.containers[*]}{.image}{end}{end}" --all-namespaces | sort | uniq
+
+	PowerShell
+	
+	kubectl get deployments -o jsonpath="{range .items[*]}{'\n'}{range .spec.template.spec.containers[*]}{.image}{end}{end}" --all-namespaces | Sort-Object | Get-Unique
+
+Pull all the deployed cronjob Image details
+
+kubectl get cronjobs -o jsonpath="{range .items[*]}{'\n'}{range .spec.jobTemplate.spec.template.spec.containers[*]}{.image}{end}{end}" --all-namespaces | sort | uniq
+
+	PowerShell
+	
+	kubectl get cronjobs -o jsonpath="{range .items[*]}{'\n'}{range .spec.template.spec.containers[*]}{.image}{end}{end}" --all-namespaces | Sort-Object | Get-Unique
+
+
+
+ContainerInventory
+| where TimeGenerated >= ago(7d)
+| where Repository contains "assessorliveregistry"
+| distinct  Repository,Image,ImageTag
+
+Get all Pods with Status
+
+kubectl get pods --all-namespaces
+
+
+kubectl get pods --field-selector=status.phase=Running --all-namespaces | grep -E "(^| )CrashLoopBackOff( |$)"
+
+kubectl get pods --field-selector=status.phase=Pending --all-namespaces | grep -E "(^| )InvalidImageName( |$)"
+
+kubectl get pods --field-selector=status.phase=Pending --all-namespaces | grep -E "(^| )ImagePullBackOff( |$)" 
+
+
+PowerShell Commands
+
+kubectl get pods --field-selector=status.phase=Running --all-namespaces |  Select-String -Pattern "CrashLoopBackOff"
+
+kubectl get pods --field-selector=status.phase=Pending --all-namespaces | Select-String -Pattern "ImagePullBackOff"
+
+kubectl get pods --field-selector=status.phase=Pending --all-namespaces | Select-String -Pattern "InvalidImageName"
+
+
+
+Scale Down All Deployments in a Namespace
+
+kubectl scale deployment -n a3-dev-kaplanr103 --replicas 0 --all
+
+Suspend A cronjob
+
+
+kubectl -n <namespace> get cronjobs --no-headers -o custom-columns=":metadata.name" | %{kubectl -n <namespace> patch cronjobs $_ -p '{\"spec\" : {\"suspend\" : true }}'}
+
+kubectl -n a3services-perf-ibr102 get cronjobs --no-headers  -o custom-columns=":metadata.name" |  %{kubectl -n a3services-perf-ibr102 patch cronjobs $_ -p '{\"spec\" : {\"suspend\" : false }}'}
 
