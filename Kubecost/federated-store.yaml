@@ -1,0 +1,8 @@
+type: AZURE
+config:
+  storage_account: "kubecostne"
+  storage_account_key: "vsTp8p+IdqBY3oHjjVVX1CkigsaJatSEEbWQlekc8QIZE65Y1IHRA3aww3tAdS+pSbbG+2to2q45+AStPk2lXQ=="
+  container: "kubecost"
+  # config.endpoint is only needed if primary blob service endpoint domain is not blob.core.windows.net
+  # Example: blob.core.chinacloudapi.cn
+  max_retries: 0

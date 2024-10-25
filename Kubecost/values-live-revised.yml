@@ -1,0 +1,72 @@
+kubecostProductConfigs:
+  clusterName: akslivene
+  productKey:
+    enabled: true
+    key: KC-EL80-004P-L11C
+  currencyCode: "GBP"
+    
+federatedETL:
+  federatedCluster: true
+  agentOnly: true
+  
+kubecostModel:
+  plugins:
+    enabled: false
+  federatedStorageConfigSecret: federated-store
+  nodeSelector:
+    kubernetes.io/os: linux
+
+kubecostFrontend:
+  nodeSelector:
+    kubernetes.io/os: linux
+
+nodeSelector:
+  kubernetes.io/os: linux
+
+grafana:
+  nodeSelector:
+    kubernetes.io/os: linux
+  
+serviceAccount: 
+# This example has Kubecost create the service account + annotation. It does not automatically configure the role/ to trust the service account.
+# To use a dedicated service account, set create to false, remove the annotation, and specify the name of your dedicated service account. 
+  create: true
+    
+global:
+  prometheus:
+    enabled: true
+    # fqdn: http://prometheus-operated.monitoring:9090
+  grafana:
+    enabled: true
+    
+prometheus:
+  nodeExporter: # node exporter is disabled by default, enable if needed
+    enabled: false
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/os
+                operator: In
+                values:
+                - linux
+  server:
+    global:
+      external_labels:
+        # cluster_id should be unique for all clusters and the same value as .kubecostProductConfigs.clusterName
+        cluster_id: akslivene
+    nodeSelector:
+      kubernetes.io/os: linux
+        
+networkCosts:
+  # optional, see: https://docs.kubecost.com/install-and-configure/advanced-configuration/network-costs-configuration
+  enabled: true
+  config:
+    services:
+      # set the appropriate cloud provider to true
+      amazon-web-services: false
+      google-cloud-services: false
+      azure-cloud-services: true
+  nodeSelector:
+    kubernetes.io/os: linux
