@@ -2,7 +2,7 @@ kubecostProductConfigs:
   clusterName: akslivene
   productKey:
     enabled: true
-    key: KC-EL80-004P-L11C
+    key:******
   currencyCode: "GBP"
     
 federatedETL:
